@@ -1,7 +1,9 @@
 <?php
 
+use App\Http\Controllers\AppController;
 use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\LoginController;
+use App\Http\Middleware\Authenticate;
 use App\Http\Middleware\NivelAcessoMiddleware;
 use Illuminate\Support\Facades\Route;
 
@@ -17,13 +19,11 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('main');
+    return view('index');
 });
 
-Route::get('/login',[LoginController::class,'index']);
-Route::post('/login',[LoginController::class,'login'])->name('login');
-Route::get('/logout',[LoginController::class,'logout'])->name('logout');
-Route::get('/admin',function(){return view('adminview');})->name('admin-area')->middleware([NivelAcessoMiddleware::class]);
-Route::get('/cadastro',[ClienteController::class,'index']);
-Route::post('/cadastrar',[ClienteController::class,'cadastrar']);
+Route::get('/login', [LoginController::class, 'index'])->name('login');
+Route::post('/login', [LoginController::class, 'login'])->name('login');
+Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 
+Route::get('/app',AppController::class)->middleware(Authenticate::class);

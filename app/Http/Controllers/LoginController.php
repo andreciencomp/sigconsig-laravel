@@ -21,13 +21,13 @@ class LoginController extends Controller
 
         if(Auth::attempt($credencial)){
 
-            return redirect()->intended();
+            $user = Auth::user();
+            return redirect()->to('/app');
+
         }
         else{
-           return redirect()->back()->withErrors(['login'=>'Falha de Login'])->withInput();
+                return redirect()->back()->withErrors(['login'=>'Falha de Login'])->withInput();
         }
-
-        
 
    }
 

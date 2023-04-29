@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('bairro');
             $table->text('complemento')->nullable();
             $table->string('telefone');
-            $table->foreignId('id_cidade')->constrained('cidades');
+            $table->foreignId('cidade_id')->constrained('cidades');
         });
     }
 
