@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AppController;
+use App\Http\Controllers\BancoController;
 use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\LoginController;
 use App\Http\Middleware\Authenticate;
@@ -27,3 +28,5 @@ Route::post('/login', [LoginController::class, 'login'])->name('login');
 Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 
 Route::get('/app',AppController::class)->middleware(Authenticate::class);
+
+Route::resource('/bancos',BancoController::class);
