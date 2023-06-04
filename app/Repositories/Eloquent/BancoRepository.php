@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Repositories;
+namespace App\Repositories\Eloquent;
 
 use App\Models\Banco;
 use App\Repositories\Interfaces\BancoRepositoryInterface;

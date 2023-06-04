@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('bancos',function(Blueprint $table){
             $table->id();
             $table->string('codigo')->unique();
-            $table->string('sigla');
-            $table->string('nome');
+            $table->string('sigla')->unique();
+            $table->string('nome')->unique();
             
         });
     }

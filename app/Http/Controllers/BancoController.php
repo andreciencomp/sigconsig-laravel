@@ -3,28 +3,23 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Repositories\BancoRepository;
-use Exception;
+use App\Services\BancoService;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 
 class BancoController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Exibe uma listagem de bancos.
      * 
      */
-
-    
-    
-
     public function index(Request $request)
     {
         return view('bancos.index', ['mensagem' => $request['mem']]);
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Exibe a view para cadastrar um novo banco
      */
     public function create()
     {
@@ -32,27 +27,28 @@ class BancoController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Salva um novo banco no banco de dados
+     * @param $request Contém os valores da requisição http
      */
     public function store(Request $request)
     {
+        try {
+            $validacao = $request->validate([
+                'codigo' => 'required|unique:bancos', 'sigla' => 'required|unique:bancos', 'nome' => 'required|unique:bancos'
+            ]);
 
-        $rep = new BancoRepository();
-        try{
-            $rep->save($request->all());
-            return redirect()->route('bancos.index',['mensagem' => 'Cadastrado com Sucesso']);
+            $bancoService = new BancoService();
+            $bancoService->cadastrar($request->codigo, $request->sigla, $request->nome);
+            return redirect()->back()->with(['mensagem' => 'Banco cadastrado com sucesso']);
+        } catch (QueryException $e) {
+
+            return redirect()->back()->withInput()->withErrors(['erro_cadastro' => 'Erro ao cadastrar.']);
         }
-        catch(QueryException $e){
-
-
-            return redirect()->back()->withErrors(['erro' => 'O codigo tem que ser único. Preencha todos os Campos']);
-        }
-        
-
     }
 
     /**
-     * Display the specified resource.
+     * Exibe um determinado recurso.
+     * @param $id Identificador único do recurso.
      */
     public function show(string $id)
     {
@@ -60,7 +56,8 @@ class BancoController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Exibe a página de um formulário para editar o banco.
+     * @param $id Identificador único do banco.
      */
     public function edit(string $id)
     {
@@ -68,7 +65,9 @@ class BancoController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Atualiza um determinado banco.
+     * @param $request Objeto que guarda as informações da requisição http.
+     * @param $id Identificador único do banco.
      */
     public function update(Request $request, string $id)
     {
@@ -76,7 +75,8 @@ class BancoController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Remove um determinado banco do banco de dados.
+     * @param $id Identificador único do banco.
      */
     public function destroy(string $id)
     {

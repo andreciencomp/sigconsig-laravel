@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Repositories;
+namespace App\Repositories\Eloquent;
 
 use App\Exceptions\ErroBDException;
 use Illuminate\Database\QueryException;
@@ -24,9 +24,15 @@ use Illuminate\Database\QueryException;
             return $this->model->find($id);
         }
 
-        function save($fillableData){
+        function save(array $dados){
 
-           $this->model->create($fillableData);
+           $this->model->create($dados);
+
+        }
+
+        function update($id, array $dados){
+            $model = $this->model->find($id);
+            $model->update($dados); 
 
         }
 

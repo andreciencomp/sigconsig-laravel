@@ -19,7 +19,13 @@
                 <li><a>Contratos</a></li>
                 <li><a>Corretores</a></li>
                 <li><a>Produtos</a></li>
-                <li><a>Bancos</a></li>
+                <li>
+                    <a>Bancos</a>
+                    <ul class="menu">
+                        <li><a href="{{route('bancos.create')}}">Cadastrar</a></li>
+                        <li>Listar</li>
+                    </ul>
+                </li>
                 <li><a>Comissionamentos</a></li>
             </ul>
         </nav>
